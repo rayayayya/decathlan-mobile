@@ -6,6 +6,11 @@ Widget tree pada flutter adalah struktur hierarkis yang menyusun seluruh widget 
 
 ## Sebutkan semua widget yang kamu gunakan dalam proyek ini dan jelaskan fungsinya.
 
+1. Stateless widget: Memberikan struktur dasar aplikasi berbasis Material Design, termasuk tema, navigasi, dan struktur halaman.
+2. Scaffold: Memberikan struktur halaman standar Material Design
+3. Appbar: Menampilkan bagian header
+4. Snackbar: Menampilkan pesan sementara di bagian bawah layar sebagai umpan balik pengguna
+5. Container: Membungkus isi dalam ItemCard
 ## Apa fungsi dari widget MaterialApp? Jelaskan mengapa widget ini sering digunakan sebagai widget root.
 
 Widget materialapp berfungsi sebagai widget rot yang menyediakan struktur dasar untuk aplikasi yang mengikuti prinsip material design. Widget ini sering digunakan karena mengatur konfigutasi penting di seluruh apalikasi, dengan menggunakan materialapp, kita dapat dengan lebih mudah memanage tampilan aplikasi.
