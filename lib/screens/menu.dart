@@ -1,18 +1,18 @@
+import 'package:decathlan_mobile/screens/productlist_form.dart';
+import 'package:decathlan_mobile/widgets/left_drawer.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
-  
-
   final List<ItemHomepage> items = [
     ItemHomepage("All Products", Icons.newspaper),
     ItemHomepage("My Products", Icons.person),
     ItemHomepage("Create Product", Icons.add),
-    ];
+  ];
 
-     @override
-    Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     // Scaffold menyediakan struktur dasar halaman dengan AppBar dan body.
     return Scaffold(
       // AppBar adalah bagian atas halaman yang menampilkan judul.
@@ -20,14 +20,12 @@ class MyHomePage extends StatelessWidget {
         // Judul aplikasi "Football News" dengan teks putih dan tebal.
         title: const Text(
           'Decathlan',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         // Warna latar belakang AppBar diambil dari skema warna tema aplikasi.
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
+      drawer: const LeftDrawer(),
       // Body halaman dengan padding di sekelilingnya.
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -35,12 +33,10 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
             // Menempatkan widget berikutnya di tengah halaman.
             Center(
               child: Column(
                 // Menyusun teks dan grid item secara vertikal.
-
                 children: [
                   // Menampilkan teks sambutan dengan gaya tebal dan ukuran 18.
                   const Padding(
@@ -79,38 +75,47 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-
 class ItemHomepage {
- final String name;
- final IconData icon;
+  final String name;
+  final IconData icon;
 
- ItemHomepage(this.name, this.icon);
+  ItemHomepage(this.name, this.icon);
 }
 
 class ItemCard extends StatelessWidget {
+  final ItemHomepage item;
 
-  final ItemHomepage item; 
-
-  const ItemCard(this.item, {super.key}); 
+  const ItemCard(this.item, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: item.name == "All Products"
-    ? Colors.blue
-    : item.name == "My Products"
-        ? Colors.green
-        : Colors.red,
+          ? Colors.blue
+          : item.name == "My Products"
+          ? Colors.green
+          : Colors.red,
 
       borderRadius: BorderRadius.circular(12),
 
       child: InkWell(
         onTap: () {
+          // Memunculkan SnackBar ketika diklik
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!"))
+              SnackBar(
+                content: Text("Kamu telah menekan tombol ${item.name}!"),
+              ),
             );
+
+          // Navigate ke route yang sesuai (tergantung jenis tombol)
+          if (item.name == "Add Product") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProductFormPage()),
+            );
+          }
         },
         child: Container(
           padding: const EdgeInsets.all(8),
@@ -118,11 +123,7 @@ class ItemCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
+                Icon(item.icon, color: Colors.white, size: 30.0),
                 const Padding(padding: EdgeInsets.all(3)),
                 Text(
                   item.name,
@@ -136,5 +137,4 @@ class ItemCard extends StatelessWidget {
       ),
     );
   }
-
 }

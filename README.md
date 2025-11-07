@@ -26,3 +26,25 @@ Buildcontext adalah penunjuk lokasi widget di dalam pohon widget flutter, berfun
 ## Jelaskan konsep "hot reload" di Flutter dan bagaimana bedanya dengan "hot restart".
 
 Hot reload adalah fitur Flutter yang memungkinkan developer untuk meng-update UI secara instan tanpa kehilangan status aplikasi yang sedang berjalan, sedangkan hot restart menghentikan aplikasi, mengembalikan statusnya ke default, dan membangun ulang widget tree dari awal menggunakan kode baru yang telah dikompilasi
+
+
+# Tugas Individu 8
+
+## Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
+
+Navigator.push() memungkinakn user untuk membuka halaman sementara dan user dapat kembali ke halaman sebelumnya, sedangkan, Navigator.pushReplacement() menggantikan halaman sebelumnya, jadi halaman lama tidak dapat dikembalikan lagi dengan tombol back.
+
+Penggunaan Navigator.push() cocok ketika kita ingin user dapat balik ke halaman sebelumnya, sedangkan Navigator.pushReplacement() cocok saat kita tidak ingin user baliik ke halaman sebelumnya
+
+## Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
+Scaffold memungkinkan untuk menampuk struktur halaman, menentukan posisi appbar, dan menyediakan drawer di samping.D Dengan menggunakan scaffold, semua halaman memiliki layout dasar yang sama
+Appbar digunakan untuk membuat judul halaman dan juga tempat tombol navigasi seperti icon back
+Drawer berisisi navigasi ke halaman halaman utama dalam aplikasi
+
+## Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
+Padding digunakan untuk memberi jarak antar elemen di layar, kelebihannya adalah form jadi terlihat lebih rapi dan teratur, SingleChildScrollView memungkinkan seluruh isi halaman di scroll apabila isinya melebihi tinggi dari layar, ListView memungkinkan untuk menambilkan banyak elemen secara dinamis dibandingkan dengan penggunaan column
+## Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
+
+Pengaturan warna tema aplikasi dilakukan pada bagian
+
+<pre> ```dart theme: ThemeData( colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue) .copyWith(secondary: Colors.blueAccent[400]), ), home: MyHomePage(), ``` </pre>
