@@ -1,5 +1,9 @@
 import 'package:decathlan_mobile/widgets/left_drawer.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:decathlan_mobile/screens/menu.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -39,6 +43,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
   
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Add New Product')),
@@ -110,7 +115,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
           borderRadius: BorderRadius.circular(5.0),
         ),
       ),
-      value: _category,
+      value: _category.isEmpty ? null : _category,
       items: _categories
           .map((cat) => DropdownMenuItem(
                 value: cat,
@@ -153,41 +158,47 @@ class _ProductFormPageState extends State<ProductFormPage> {
           style: ButtonStyle(
             backgroundColor:
                 MaterialStateProperty.all(Colors.indigo),
-          ),
-          onPressed: () {
+          ),onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: const Text('Produk berhasil tersimpan'),
-                    content: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                        children: [
-                           Text('Nama: $_name'),
-                            Text('Deskripsi: $_description'),
-                            Text('Kategori: $_category'),
-                            Text('Thumbnail: $_thumbnail'),
-                        ],
-                      ),
-                    ),
-                    actions: [
-                      TextButton(
-                        child: const Text('OK'),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _formKey.currentState!.reset();
-                        },
-                      ),
-                    ],
-                  );
-                },
+              final response = await request.postJson(
+                // GANTI dengan URL backend kamu
+                "http://localhost:8000/create-flutter/",
+                jsonEncode({
+                  "name": _name,
+                  "description": _description,
+                  "category": _category,
+                  "thumbnail": _thumbnail,
+                  "price": 0,           // kalau belum ada input price di form
+                  "stock": 0,           // kalau belum ada input stock
+                  "brand": "",          // kalau belum ada input brand
+                }),
               );
-           
+
+              if (context.mounted) {
+                if (response['status'] == 'success') {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Product successfully saved!")),
+                  );
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyHomePage(),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Something went wrong, please try again."),
+                    ),
+                  );
+                }
+              }
             }
           },
+
+          
+          
           child: const Text(
             "Save",
             style: TextStyle(color: Colors.white),
